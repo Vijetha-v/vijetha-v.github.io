@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vijetha | ECE Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1A1A;
+      --teal: #1E7B6C;
+      --teal-light: #2EA68E;
+      --teal-pale: #D4EDE8;
+      --warm-gray: #6B6460;
+      --border: #D8D0C4;
+      --card-bg: #FDFAF5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--teal);
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--warm-gray);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(30,123,108,0.08) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-text { opacity: 0; animation: fadeUp 0.9s ease 0.2s forwards; }
+    .hero-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--teal-pale);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3.2rem, 6vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--teal);
+    }
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--warm-gray);
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--teal);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border: 1.5px solid var(--teal);
+      color: var(--teal);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--teal-pale); transform: translateY(-2px); }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+    }
+    .profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(30,123,108,0.08);
+      position: relative;
+    }
+    .profile-avatar {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      color: #fff;
+    }
+    .profile-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.3rem;
+    }
+    .profile-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    .profile-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.4rem; }
+    .chip {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 30px;
+      background: var(--teal-pale);
+      color: var(--teal);
+      letter-spacing: 0.04em;
+    }
+    .profile-contact a {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--warm-gray);
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .profile-contact a:hover { color: var(--teal); }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      line-height: 1.15;
+    }
+    .section-title em { font-style: italic; color: var(--teal); }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .skill-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(30,123,108,0.1); }
+    .skill-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.8rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.65rem;
+      background: var(--teal-pale);
+      color: var(--ink);
+      border-radius: 4px;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--teal-light));
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(30,123,108,0.12); }
+    .project-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      color: var(--teal-pale);
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .project-desc { font-size: 0.88rem; line-height: 1.7; color: var(--warm-gray); margin-bottom: 1.2rem; }
+    .project-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .project-badge.ongoing { background: var(--teal-pale); }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--teal), var(--teal-pale));
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.6s ease forwards;
+    }
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.25s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.4s; }
+    .timeline-dot {
+      position: absolute;
+      left: -2.45rem;
+      top: 0.35rem;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--teal);
+      border: 3px solid var(--cream);
+    }
+    .timeline-period {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--teal);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+    .timeline-role {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+    }
+    .timeline-org {
+      font-size: 0.82rem;
+      color: var(--warm-gray);
+      margin-bottom: 0.7rem;
+    }
+    .timeline-desc { font-size: 0.88rem; line-height: 1.7; color: var(--warm-gray); }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 1.2rem;
+      transition: transform 0.2s;
+    }
+    .edu-card:hover { transform: translateX(6px); }
+    .edu-icon {
+      font-size: 1.8rem;
+      background: var(--teal-pale);
+      padding: 0.8rem;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .edu-degree {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+    }
+    .edu-school { font-size: 0.88rem; color: var(--warm-gray); }
+
+    /* ── CERTS ── */
+    #certifications { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .certs-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .cert-pill {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1.2rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .cert-pill:hover { border-color: var(--teal); transform: translateY(-2px); }
+    .cert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-card {
+      max-width: 620px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3.5rem;
+    }
+    .contact-card p { font-size: 0.95rem; color: var(--warm-gray); line-height: 1.7; margin-bottom: 2rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.4rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--warm-gray);
+      letter-spacing: 0.06em;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; text-align: center; }
+      .hero-desc { margin: 0 auto 2rem; }
+      .hero-btns { justify-content: center; }
+      .hero-visual { display: none; }
+      section { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Vijetha</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">ECE Engineer · Udupi, Karnataka</div>
+    <h1>Building <em>smart</em><br>systems for a<br>connected world</h1>
+    <p class="hero-desc">Electronics & Communication Engineering student passionate about Embedded Systems, IoT, and AI — turning ideas into real-world technology solutions.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="profile-card">
+      <div class="profile-avatar">V</div>
+      <div class="profile-name">Vijetha</div>
+      <div class="profile-role">ECE · Embedded Systems · IoT</div>
+      <div class="profile-chips">
+        <span class="chip">ESP32</span>
+        <span class="chip">Arduino</span>
+        <span class="chip">Python</span>
+        <span class="chip">Firebase</span>
+        <span class="chip">IoT</span>
+        <span class="chip">C/C++</span>
+      </div>
+      <div class="profile-contact">
+        <a href="mailto:vijetha.naik04@gmail.com">✉ vijetha.naik04@gmail.com</a>
+        <a href="https://linkedin.com/in/vijetha1" target="_blank">🔗 linkedin.com/in/vijetha1</a>
+        <a href="tel:+918722457957">📞 +91 87224 57957</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I Work With</div>
+  <div class="section-title">Technical <em>Skills</em></div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-cat">Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Verilog</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Web & UI</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">Figma</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Hardware & Tools</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Arduino</span>
+        <span class="skill-tag">ESP32</span>
+        <span class="skill-tag">Tinkercad</span>
+        <span class="skill-tag">GSM Modules</span>
+        <span class="skill-tag">PCB Design</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Platforms & Cloud</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Firebase</span>
+        <span class="skill-tag">MS Office</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Domains</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Embedded Systems</span>
+        <span class="skill-tag">IoT</span>
+        <span class="skill-tag">AI Basics</span>
+        <span class="skill-tag">Circuit Design</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Soft Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Teamwork</span>
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Problem Solving</span>
+        <span class="skill-tag">Adaptability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">What I've Built</div>
+  <div class="section-title">Featured <em>Projects</em></div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-title">IoT-Driven Cold Chain Monitoring System</div>
+      <p class="project-desc">Real-time temperature & humidity monitoring using ESP32, DHT22, Firebase, and GSM. Features automated cooling control, dashboard monitoring, and instant GSM alerts for supply chain integrity.</p>
+      <span class="project-badge">Completed</span>
+    </div>
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-title">Toxic Gas Detection System</div>
+      <p class="project-desc">Safety-first gas leakage detection system built with MQ-2 sensor and Arduino. Triggers buzzer and LED alerts instantly upon detecting harmful gas concentrations.</p>
+      <span class="project-badge">Completed</span>
+    </div>
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-title">Smart Solar-Powered Pepper Cleaning Machine</div>
+      <p class="project-desc">A sustainable, solar-powered automated pepper processing machine with embedded system integration — combining agriculture with smart engineering.</p>
+      <span class="project-badge">Completed</span>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Where I've Worked</div>
+  <div class="section-title">Internship <em>Experience</em></div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Jan 2026 – May 2026</div>
+      <div class="timeline-role">Interdisciplinary Research Internship – IoT & Embedded Systems</div>
+      <div class="timeline-org">International Institute of Medical Science & Technology Council</div>
+      <p class="timeline-desc">Worked extensively with IoT systems, ESP32 microcontrollers, PCB design concepts, GSM modules, and cloud-based monitoring applications in a research-driven environment.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Jan 2024 – Apr 2024</div>
+      <div class="timeline-role">Embedded Systems Design & IoT Internship</div>
+      <div class="timeline-org">Pantech AI</div>
+      <p class="timeline-desc">Hands-on experience with Arduino, various sensors, and embedded simulation tools. Built foundational skills in hardware-software integration and IoT prototyping.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Internship</div>
+      <div class="timeline-role">Artificial Intelligence Internship</div>
+      <div class="timeline-org">SkillDzire</div>
+      <p class="timeline-desc">Explored AI fundamentals and practical applications, building a strong base for integrating AI concepts into embedded and IoT systems.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Academic Background</div>
+  <div class="section-title">My <em>Education</em></div>
+  <div class="edu-card">
+    <div class="edu-icon">🎓</div>
+    <div>
+      <div class="edu-degree">B.E. – Electronics & Communication Engineering</div>
+      <div class="edu-school">Yenepoya Institute of Technology</div>
+    </div>
+  </div>
+  <div class="edu-card">
+    <div class="edu-icon">📚</div>
+    <div>
+      <div class="edu-degree">Pre-University – Science</div>
+      <div class="edu-school">Milagres PU College</div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Learning & Growth</div>
+  <div class="section-title">Certifications <em>&</em> Workshops</div>
+  <div class="certs-grid">
+    <div class="cert-pill"><span class="cert-dot"></span>IBM – Rapid Development for AI Services</div>
+    <div class="cert-pill"><span class="cert-dot"></span>NxtWave – UI/UX Workshop</div>
+    <div class="cert-pill"><span class="cert-dot"></span>AI for Students</div>
+    <div class="cert-pill"><span class="cert-dot"></span>Great Learning – Ethical Hacking</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Let's Connect</div>
+  <div class="section-title">Get in <em>Touch</em></div>
+  <div class="contact-card">
+    <p>I'm actively looking for opportunities in Embedded Systems, IoT, and Electronics Engineering. Feel free to reach out — I'd love to connect!</p>
+    <div class="contact-links">
+      <a href="mailto:vijetha.naik04@gmail.com" class="contact-link">✉ Email Me</a>
+      <a href="https://linkedin.com/in/vijetha1" target="_blank" class="contact-link">🔗 LinkedIn</a>
+      <a href="tel:+918722457957" class="contact-link">📞 Call</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Vijetha · Designed & built with care · Udupi, Karnataka, India
+</footer>
+
+</body>
+</html>
